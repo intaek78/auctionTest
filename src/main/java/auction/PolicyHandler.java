@@ -19,6 +19,9 @@ public class PolicyHandler{
     @Autowired
     AuctionRepository auctionRepository;
 
+    @Autowired
+    BidRepository bidRepository;
+
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverBidRegisted_(@Payload Bidden bidden){
 
@@ -32,9 +35,8 @@ public class PolicyHandler{
             //auctionRepository.save(auction);
 
             auctionRepository.findByAucId((bidden.getAucId())).ifPresent(auction->{
-                //auction.setFinal_bid_mem_id(bidden.getBid_mem_id());
-                auction.setFinal_bid_mem_id(Long.valueOf(4444)); //임시
-                auction.setStatus("입찰자:" + bidden.getBid_mem_id() + ", 입찰금액 : " + bidden.getBid_amount() + "원");
+                auction.setProc_GUBUN("B");
+                auction.setStatus("Bid ID:" + bidden.getBid_mem_id() + ", Bid Amount(won) : " + bidden.getBid_amount());
                 auctionRepository.save(auction);
             });
 
@@ -48,10 +50,41 @@ public class PolicyHandler{
                 auction.setStatus("입찰자:" + bidden.getBid_mem_id() + ", 입찰금액 : " + bidden.getBid_amount() + "원");
                 auctionRepository.save(auction);
             }*/
+        }
 
 
+    }
+
+
+
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverAucRegistered_(@Payload AucRegisterd aucRegisterd) {
+
+        if (aucRegisterd.isMe()) {
+            auctionRepository.findByAucId((aucRegisterd.getAucId())).ifPresent(auction -> {
+                //auction.setFinal_bid_mem_id(bidden.getBid_mem_id());
+                auction.setAucId2(aucRegisterd.getAucId()); //임시
+                auctionRepository.save(auction);
+            });
 
         }
     }
+
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverBeAuctioned_(@Payload BeAuctioned beAuctioned){
+        //낙찰자/일시/금액 수정
+        if(beAuctioned.isMe()){
+            auctionRepository.findByAucId((beAuctioned.getAucId())).ifPresent(auction->{
+                //auction.setFinal_bid_mem_id(bidden.getBid_mem_id());
+                auction.setBeAuctioned_date(beAuctioned.getBeAuctioned_date()); //임시
+                auction.setBuyerId(beAuctioned.getAuctioned_mem_id());
+                auction.setBeAuctioned_amount(beAuctioned.getBeAuctioned_amount());
+                auction.setStatus("SOLD");
+                auction.setProc_GUBUN("S");
+                auctionRepository.save(auction);
+            });
+        }
+    }
+
 
 }

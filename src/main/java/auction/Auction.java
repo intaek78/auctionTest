@@ -13,18 +13,25 @@ public class Auction {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long aucId;
+    private Long aucId2;
     private Long auc_post_id;
     private String title;
     private String content;
     private String status;
-    private Long auc_amount;
+    private Long auc_start_amount;
     private String pay_mth;
     private String crt_date;
     private String upt_date;
     private Long buyerId;
     private Long sellerId;
-    private String complete_yn;
-    private Long final_bid_mem_id;
+    private String proc_GUBUN;
+    private String beAuctioned_date;
+    private Long beAuctioned_amount;
+
+    @PrePersist
+    public void onPrePersist(){
+        proc_GUBUN = "R";
+    }
 
 
     @PostPersist
@@ -36,12 +43,19 @@ public class Auction {
 
     @PostUpdate
     public void onPostUpdate(){
-        
-        /*//상태변경(?)
-        BeAuctioned beAuctioned = new BeAuctioned();
-        BeanUtils.copyProperties(this, beAuctioned);
-        beAuctioned.setStatus("경매완료");
-        beAuctioned.publishAfterCommit();*/
+        //경매취소/완료 처리
+        AuctionCancelled auctionCancelled = new AuctionCancelled();
+        BeanUtils.copyProperties(this, auctionCancelled);
+
+        AuctionCompleted auctionCompleted = new AuctionCompleted();
+        BeanUtils.copyProperties(this, auctionCompleted);
+        System.out.println("this.proc_GUBUN====>"+this.proc_GUBUN);
+        if (this.proc_GUBUN.equals("C")) {
+            auctionCancelled.publishAfterCommit();
+        }else if(this.proc_GUBUN.equals("E")){
+            auctionCompleted.publishAfterCommit();
+        }
+
     }
 
 
@@ -50,6 +64,13 @@ public class Auction {
     }
     public void setAucId(Long aucId) {
         this.aucId = aucId;
+    }
+
+    public Long getAucId2() {
+        return aucId2;
+    }
+    public void setAucId2(Long aucId2) {
+        this.aucId2 = aucId2;
     }
 
     public Long getAuc_post_id() {
@@ -80,11 +101,11 @@ public class Auction {
         this.status = status;
     }
 
-    public Long getAuc_amount() {
-        return auc_amount;
+    public Long getAuc_start_amount() {
+        return auc_start_amount;
     }
-    public void setAuc_amount(Long auc_amount) {
-        this.auc_amount = auc_amount;
+    public void setAuc_start_amount(Long auc_start_amount) {
+        this.auc_start_amount = auc_start_amount;
     }
 
     public String getPay_mth() {
@@ -122,18 +143,25 @@ public class Auction {
         this.sellerId = sellerId;
     }
 
-    public String getComplete_yn() {
-        return complete_yn;
+    public String getProc_GUBUN() {
+        return proc_GUBUN;
     }
-    public void setComplete_yn(String complete_yn) {
-        this.complete_yn = complete_yn;
+    public void setProc_GUBUN(String proc_GUBUN) {
+        this.proc_GUBUN = proc_GUBUN;
     }
 
-    public Long getFinal_bid_mem_id() {
-        return final_bid_mem_id;
+    public String getBeAuctioned_date() {
+        return beAuctioned_date;
     }
-    public void setFinal_bid_mem_id(Long final_bid_mem_id) {
-        this.final_bid_mem_id = final_bid_mem_id;
+    public void setBeAuctioned_date(String beAuctioned_date) {
+        this.beAuctioned_date = beAuctioned_date;
+    }
+
+    public Long getBeAuctioned_amount() {
+        return beAuctioned_amount;
+    }
+    public void setBeAuctioned_amount(Long beAuctioned_amount) {
+        this.beAuctioned_amount = beAuctioned_amount;
     }
 
 

@@ -6,6 +6,10 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name="Bid_table")
@@ -21,6 +25,9 @@ public class Bid{
     private Long bid_amount;
     private String crt_date;
     private String upt_date;
+    private String beAuctioned_date;
+    private String beAuctioned_YN;
+    private String proc_GUBUN;
 
 
     @PostPersist
@@ -32,6 +39,24 @@ public class Bid{
         bidden.setBid_id(this.bid_mem_id);
         bidden.publishAfterCommit();
 
+    }
+
+    @PostUpdate
+    public void onPostUpdate(){
+
+        //낙찰자id 및 낙찰일시 수정
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        BeAuctioned beAuctioned = new BeAuctioned();
+        BeanUtils.copyProperties(this, beAuctioned);
+        beAuctioned.setStatus("Sold");
+        beAuctioned.setAuctioned_mem_id(this.bid_mem_id);
+        beAuctioned.setBeAuctioned_date(df.format(cal.getTime()));
+        beAuctioned.setBeAuctioned_amount(this.getBid_amount());
+        beAuctioned.setProc_GUBUN("S");
+        beAuctioned.publishAfterCommit();
     }
 
     @PrePersist
@@ -90,6 +115,27 @@ public class Bid{
     }
     public void setUpt_date(String upt_date) {
         this.upt_date = upt_date;
+    }
+
+    public String getBeAuctioned_date() {
+        return beAuctioned_date;
+    }
+    public void setBeAuctioned_date(String beAuctioned_date) {
+        this.beAuctioned_date = beAuctioned_date;
+    }
+
+    public String getBeAuctioned_YN() {
+        return beAuctioned_YN;
+    }
+    public void setBeAuctioned_YN(String beAuctioned_YN) {
+        this.beAuctioned_YN = beAuctioned_YN;
+    }
+
+    public String getProc_GUBUN() {
+        return proc_GUBUN;
+    }
+    public void setProc_GUBUN(String proc_GUBUN) {
+        this.proc_GUBUN = proc_GUBUN;
     }
 
 

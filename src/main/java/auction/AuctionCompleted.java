@@ -1,14 +1,18 @@
 package auction;
 
-public class AuctionCancelled extends AbstractEvent {
+public class AuctionCompleted extends AbstractEvent {
 
     private Long aucId;
     private Long auc_post_id;
     private String status;
     private Long auctioned_mem_id;
+    private Long buyerId;
+    private Long sellerId;
     private String proc_GUBUN;
+    private String beAuctioned_date;
+    private Long beAuctioned_amount;
 
-    public AuctionCancelled(){
+    public AuctionCompleted(){
         super();
     }
 
@@ -40,10 +44,38 @@ public class AuctionCancelled extends AbstractEvent {
         this.auctioned_mem_id = auctioned_mem_id;
     }
 
+    public Long getBuyerId() {
+        return buyerId;
+    }
+    public void setBuyerId(Long buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
     public String getProc_GUBUN() {
         return proc_GUBUN;
     }
     public void setProc_GUBUN(String proc_GUBUN) {
         this.proc_GUBUN = proc_GUBUN;
+    }
+
+    public String getBeAuctioned_date() {
+        return beAuctioned_date;
+    }
+    public void setBeAuctioned_date(String beAuctioned_date) {
+        this.beAuctioned_date = beAuctioned_date;
+    }
+
+    public Long getBeAuctioned_amount() {
+        return beAuctioned_amount;
+    }
+    public void setBeAuctioned_amount(Long beAuctioned_amount) {
+        this.beAuctioned_amount = beAuctioned_amount;
     }
 }
