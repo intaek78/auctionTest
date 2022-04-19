@@ -3,56 +3,35 @@ package auction;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@Table(name="Bid_table")
-public class Bid{
+@Table(name="Beauction_table")
+public class Beauction {
 
     private Long auc_post_id;
     private Long aucId;
+    private Long bidId;
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long bidId;
-    private Long bidId2;
+    private Long beauction_id;
     private Long bid_mem_id;
-    private Long bid_amount;
+    //private Long beAuctioned_amount;
     private String crt_date;
     private String upt_date;
     private String beAuctioned_date;
     private String beAuctioned_YN;
-    private String paymentReq_YN;
     private String proc_GUBUN;
-    private String title;
-    private Long sellerId;
-    private String status;
-
-
 
 
     @PostPersist
     public void onPostPersist(){
-        Bidden bidden = new Bidden();
-        BeanUtils.copyProperties(this, bidden);
-        bidden.publishAfterCommit();
-
-        Bidden bidden2 = new Bidden();
-        BeanUtils.copyProperties(this, bidden2);
-        bidden2.publishAfterCommit();
-
-    }
-
-    @PostUpdate
-    public void onPostUpdate(){
-        System.out.println("==========%%%%%%%%%%%%Bid PostUpdate start=========");
-       /* //낙찰자id 및 낙찰일시 수정
+        System.out.println("==========Beauction PostPersist start==========");
+        //낙찰자id 및 낙찰일시 수정
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -60,11 +39,17 @@ public class Bid{
         BeAuctioned beAuctioned = new BeAuctioned();
         BeanUtils.copyProperties(this, beAuctioned);
         beAuctioned.setStatus("Sold");
-        beAuctioned.setAuctioned_mem_id(this.bid_mem_id);
+        beAuctioned.setAuctioned_mem_id(beAuctioned.getAuctioned_mem_id());
         beAuctioned.setBeAuctioned_date(df.format(cal.getTime()));
-        beAuctioned.setBeAuctioned_amount(this.bid_amount);
+        beAuctioned.setBeAuctioned_amount(beAuctioned.getBeAuctioned_amount());
+        beAuctioned.setBidId(beAuctioned.getBidId());
         beAuctioned.setProc_GUBUN("S");
-        beAuctioned.publishAfterCommit();*/
+        beAuctioned.publishAfterCommit();
+    }
+
+    @PostUpdate
+    public void onPostUpdate(){
+
     }
 
     @PrePersist
@@ -83,11 +68,11 @@ public class Bid{
         this.aucId = aucId;
     }
 
-    public Long getBidId2() {
-        return bidId2;
+    public Long getBidId() {
+        return bidId;
     }
-    public void setBidId2(Long bidId2) {
-        this.bidId2 = bidId2;
+    public void setBidId(Long bidId) {
+        this.bidId = bidId;
     }
 
     public Long getAuc_post_id() {
@@ -97,11 +82,11 @@ public class Bid{
         this.auc_post_id = auc_post_id;
     }
 
-    public Long getBidId() {
-        return bidId;
+    public Long getBeauction_id() {
+        return beauction_id;
     }
-    public void setBidId(Long bidId) {
-        this.bidId = bidId;
+    public void setBeauction_id(Long beauction_id) {
+        this.beauction_id = beauction_id;
     }
 
     public Long getBid_mem_id() {
@@ -111,12 +96,8 @@ public class Bid{
         this.bid_mem_id = bid_mem_id;
     }
 
-    public Long getBid_amount() {
-        return bid_amount;
-    }
-    public void setBid_amount(Long bid_amount) {
-        this.bid_amount = bid_amount;
-    }
+    //public Long getBeAuctioned_amount() {        return beAuctioned_amount;     }
+    //public void setBeAuctioned_amount(Long beAuctioned_amount) {         this.beAuctioned_amount = beAuctioned_amount;     }
 
     public String getCrt_date() {
         return crt_date;
@@ -151,34 +132,6 @@ public class Bid{
     }
     public void setProc_GUBUN(String proc_GUBUN) {
         this.proc_GUBUN = proc_GUBUN;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Long getSellerId() {
-        return sellerId;
-    }
-    public void setSellerId(Long sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public String getPaymentReq_YN() {
-        return paymentReq_YN;
-    }
-    public void setPaymentReq_YN(String paymentReq_YN) {
-        this.paymentReq_YN = paymentReq_YN;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-    public void setStatus(String status) {
-        this.status = status;
     }
 
 

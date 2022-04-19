@@ -1,19 +1,24 @@
 package auction;
 
-public class BeAuctioned extends AbstractEvent {
+public class AucPaymentRegistered extends AbstractEvent {
 
     private Long aucId;
+    private Long bidId;
     private Long auc_post_id;
     private String status;
     private Long auctioned_mem_id;
     private String beAuctioned_date;
     private Long beAuctioned_amount;
     private String proc_GUBUN;
-    private Long bidId;
+
+    private String paymentReq_YN;
+    private String paymentGubun;
 
 
 
-    public BeAuctioned(){
+
+
+    public AucPaymentRegistered(){
         super();
     }
 
@@ -22,6 +27,13 @@ public class BeAuctioned extends AbstractEvent {
     }
     public void setAucId(Long aucId) {
         this.aucId = aucId;
+    }
+
+    public Long getBidId() {
+        return bidId;
+    }
+    public void setBidId(Long bidId) {
+        this.bidId = bidId;
     }
 
     public Long getAuc_post_id() {
@@ -66,10 +78,17 @@ public class BeAuctioned extends AbstractEvent {
         this.proc_GUBUN = proc_GUBUN;
     }
 
-    public Long getBidId() {
-        return bidId;
+    public String getPaymentReq_YN() {
+        return paymentReq_YN;
     }
-    public void setBidId(Long bidId) {
-        this.bidId = bidId;
+    public void setPaymentReq_YN(String paymentReq_YN) {
+        this.paymentReq_YN = paymentReq_YN;
+    }
+
+    public String getPaymentGubun() {
+        return paymentGubun;
+    }
+    public void setPaymentGubun(String paymentGubun) {
+        this.paymentGubun = paymentGubun;
     }
 }

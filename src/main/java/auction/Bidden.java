@@ -4,7 +4,8 @@ public class Bidden extends AbstractEvent {
 
     private Long aucId;
     private Long auc_post_id;
-    private Long bid_id;
+    private Long bidId;
+    private Long bidId2;
     private Long bid_mem_id;
     private Long bid_amount;
     private String proc_GUBUN;
@@ -19,11 +20,18 @@ public class Bidden extends AbstractEvent {
     public Long getAuc_post_id() {  return auc_post_id;   }
     public void setAuc_post_id(Long auc_post_id) {     this.auc_post_id = auc_post_id;    }
 
-    public Long getBid_id() {
-        return bid_id;
+    public Long getBidId() {
+        return bidId;
     }
-    public void setBid_id(Long bid_id) {
-        this.bid_id = bid_id;
+    public void setBidId(Long bidId) {
+        this.bidId = bidId;
+    }
+
+    public Long getBidId2() {
+        return bidId2;
+    }
+    public void setBidId2(Long bidId2) {
+        this.bidId2 = bidId2;
     }
 
     public Long getBid_amount() {

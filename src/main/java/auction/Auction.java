@@ -28,6 +28,10 @@ public class Auction {
     private String beAuctioned_date;
     private Long beAuctioned_amount;
 
+    private String beAuctioned_YN_Auc;
+
+    private String paymentReq_YN;
+
     @PrePersist
     public void onPrePersist(){
         proc_GUBUN = "R";
@@ -56,6 +60,13 @@ public class Auction {
             auctionCompleted.publishAfterCommit();
         }
 
+    }
+
+    @PreRemove
+    public void onPreRemove(){
+        AuctionCancelled auctionCancelled = new AuctionCancelled();
+        BeanUtils.copyProperties(this, auctionCancelled);
+        auctionCancelled.publishAfterCommit();
     }
 
 
@@ -162,6 +173,20 @@ public class Auction {
     }
     public void setBeAuctioned_amount(Long beAuctioned_amount) {
         this.beAuctioned_amount = beAuctioned_amount;
+    }
+
+    public String getBeAuctioned_YN_Auc() {
+        return beAuctioned_YN_Auc;
+    }
+    public void setBeAuctioned_YN_Auc(String beAuctioned_YN_Auc) {
+        this.beAuctioned_YN_Auc = beAuctioned_YN_Auc;
+    }
+
+    public String getPaymentReq_YN() {
+        return paymentReq_YN;
+    }
+    public void setPaymentReq_YN(String paymentReq_YN) {
+        this.paymentReq_YN = paymentReq_YN;
     }
 
 

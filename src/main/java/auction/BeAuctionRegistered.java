@@ -1,6 +1,6 @@
 package auction;
 
-public class BeAuctioned extends AbstractEvent {
+public class BeAuctionRegistered extends AbstractEvent {
 
     private Long aucId;
     private Long auc_post_id;
@@ -9,11 +9,10 @@ public class BeAuctioned extends AbstractEvent {
     private String beAuctioned_date;
     private Long beAuctioned_amount;
     private String proc_GUBUN;
-    private Long bidId;
 
 
 
-    public BeAuctioned(){
+    public BeAuctionRegistered(){
         super();
     }
 
@@ -64,12 +63,5 @@ public class BeAuctioned extends AbstractEvent {
     }
     public void setProc_GUBUN(String proc_GUBUN) {
         this.proc_GUBUN = proc_GUBUN;
-    }
-
-    public Long getBidId() {
-        return bidId;
-    }
-    public void setBidId(Long bidId) {
-        this.bidId = bidId;
     }
 }

@@ -3,17 +3,10 @@ package auction;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 @Entity
-@Table(name="Bid_table")
-public class Bid{
+@Table(name="AucPayment_table")
+public class AucPayment {
 
     private Long auc_post_id;
     private Long aucId;
@@ -32,21 +25,18 @@ public class Bid{
     private String proc_GUBUN;
     private String title;
     private Long sellerId;
-    private String status;
-
-
+    private String paymentGubun;
 
 
     @PostPersist
     public void onPostPersist(){
-        Bidden bidden = new Bidden();
-        BeanUtils.copyProperties(this, bidden);
-        bidden.publishAfterCommit();
+        AucPaymentRegistered aucPaymentRegistered = new AucPaymentRegistered();
+        BeanUtils.copyProperties(this, aucPaymentRegistered);
+        aucPaymentRegistered.publishAfterCommit();
 
-        Bidden bidden2 = new Bidden();
-        BeanUtils.copyProperties(this, bidden2);
-        bidden2.publishAfterCommit();
-
+        AucPaymentRegistered aucPaymentRegistered2 = new AucPaymentRegistered();
+        BeanUtils.copyProperties(this, aucPaymentRegistered2);
+        aucPaymentRegistered2.publishAfterCommit();
     }
 
     @PostUpdate
@@ -174,11 +164,11 @@ public class Bid{
         this.paymentReq_YN = paymentReq_YN;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPaymentGubun() {
+        return paymentGubun;
     }
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPaymentGubun(String paymentGubun) {
+        this.paymentGubun = paymentGubun;
     }
 
 

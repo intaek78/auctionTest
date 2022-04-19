@@ -8,6 +8,8 @@ public class AuctionCancelled extends AbstractEvent {
     private Long auctioned_mem_id;
     private String proc_GUBUN;
 
+    private Long sellerId;
+
     public AuctionCancelled(){
         super();
     }
@@ -45,5 +47,12 @@ public class AuctionCancelled extends AbstractEvent {
     }
     public void setProc_GUBUN(String proc_GUBUN) {
         this.proc_GUBUN = proc_GUBUN;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
     }
 }
